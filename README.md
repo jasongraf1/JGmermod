@@ -4,5 +4,5 @@ Provides extended functionality for working with hierarchical mixed-effects regr
 The package can be installed like so:
 
 ```{r}
-devtools::install_github("jasongraf1/JGggplot")
+devtools::install_github("jasongraf1/JGmermod")
 ```
