@@ -1,0 +1,22 @@
+Package: JGmermod
+Type: Package
+Title: Custom Functions For Mixed-Effects Regression Models
+Version: 0.2.0
+Author: Jason Grafmiller
+Date: 18-12-2017
+Maintainer: Jason Grafmiller <j.grafmiller@bham.ac.uk>
+Description: Provides extended functionality for mixed effects models with lme4.
+Imports:
+	coda,
+	dplyr,
+	magrittr,
+	reshape2,
+	ggplot2, 
+	lme4,
+	car,
+	Hmisc,
+	merTools,
+	effects
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
