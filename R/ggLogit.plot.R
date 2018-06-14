@@ -14,7 +14,6 @@ ggLogit.plot <- function (x, newdata = NULL, method = "cut",
   require(MuMIn, quietly = TRUE)
   require(ggplot2, quietly = TRUE)
 
-
   # e.g. library(languageR);
   # m <- glm(RealizationOfRecipient ~ PronomOfTheme + LengthOfRecipient, data = dative, family = binomial)
   # ggLogit.plot(m, data = dative)
@@ -24,13 +23,13 @@ ggLogit.plot <- function (x, newdata = NULL, method = "cut",
     if (class(x)[1] == "glmerMod") {
       y <- attr(x@frame, "terms")
       depvar <- names(attr(terms(y), "dataClasses")[attr(terms(y),"response")])
-      probs <- predict(m, newdata = data, type = "response", allow.new.levels = TRUE)
+      probs <- predict(x, newdata = data, type = "response", allow.new.levels = TRUE)
     } else if (class(x)[1] == "lrm") {
       depvar <- as.character(formula(x$call))[2]
       probs <- predict(x, newdata = data, type = "fitted")
     } else if (class(x)[1] == "glm") {
       depvar <- as.character(x$formula)[2]
-      probs <- predict(m, newdata = data, type = "response")
+      probs <- predict(x, newdata = data, type = "response")
     } else if (class(x)[1] == "averaging"){
       depvar <- as.character(x$formula)[2]
       probs <- predict(x, newdata = data, full = T, type = 'response')
@@ -43,15 +42,17 @@ ggLogit.plot <- function (x, newdata = NULL, method = "cut",
     } else {
       stop("first argument is not a model object or list") }
   } else {
-    data <- as.data.frame(data)
     if (class(x)[1] == "glmerMod") {
+      data <- as.data.frame(x@frame)
       y <- attr(x@frame, "terms")
       depvar <- names(attr(terms(y), "dataClasses")[attr(terms(y),"response")])
       probs <- fitted(x)
     } else if (class(x)[1] == "lrm") {
+      data <- as.data.frame(x$x)
       depvar <- as.character(formula(x$call))[2]
       probs <- predict(x, type = "fitted")
     } else if (class(x)[1] == "glm") {
+      data <- as.data.frame(x$data)
       depvar <- as.character(x$formula)[2]
       probs <- fitted(x)
     } else if (class(x)[1] == "averaging"){
@@ -68,6 +69,8 @@ ggLogit.plot <- function (x, newdata = NULL, method = "cut",
     }
   }
 
+  se <- function (i) sd(i)/sqrt(length(i))
+
   if (method == "cut") {
     classes <- cut2(probs, where, levels.mean = TRUE)[drop = T]
     classCounts <- table(classes)
@@ -76,7 +79,7 @@ ggLogit.plot <- function (x, newdata = NULL, method = "cut",
     means <- means[!is.na(means)]
     DF <- data.frame(pred.probs = as.numeric(names(means)),
                     obs.props = means,
-                    errs = tapply(as.numeric(data[, depvar]), classes,se))
+                    errs = tapply(as.numeric(data[, depvar]), classes, se))
   } else {
     if (method == "shingle") {
       sh = equal.count(probs)
