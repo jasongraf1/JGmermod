@@ -3,7 +3,7 @@
 \title{Plot for Goodness of Fit of Logistic Regression Model with ggplot2}
 \usage{
 ggLogit.plot(x, data, ...)
-\method{ggLogit.plot}{default}(x, data, method = "cut",
+\method{ggLogit.plot}{default}(x, newdata = NULL, method = "cut",
 	where = seq(0, 1, by = 0.1), scalesize = NA, r2 = FALSE,
 	dot.shape = 19, dot.size = 3, col = "black", add.se = FALSE)
 }
@@ -11,8 +11,8 @@ ggLogit.plot(x, data, ...)
 Plots observed proportions against mean predicted probabilities from a logistic regression model. For a good fit, points should be approximately on a straight line.
 }
 \arguments{
-\item{x}{ one of two possibilities: 1) a model object of class \code{glmerMod} or \code{glm} (from package \code{lme4}), \code{lrm} (from package \code{rms}),  \code{averaging} (from package \code{MuMIn}), or \code{MCMCglmm} (from package \code{MCMCglmm}); 2) a list of length 2 whose first element is a vector of predcited probabilities and whose second element is a character string specifying the corresponding response column in \code{data}. }
-\item{data}{ a dataframe containing a vector of observations. }
+\item{x}{ one of two possibilities: 1) a model object of class \code{glmerMod} or \code{glm} (from package \code{lme4}), \code{lrm} (from package \code{rms}),  \code{averaging} (from package \code{MuMIn}), or \code{MCMCglmm} (from package \code{MCMCglmm}); 2) a list of length 2 whose first element is a vector of predicted probabilities and whose second element is a character string specifying the corresponding response column in \code{data}. }
+\item{newdata}{ a dataframe containing a vector of observations for which to evaluate predictions. }
 \item{method}{ Either "cut", in which case the vector of cut-off points supplied by the "where" argument will be used to partition the fitted probabilities, or "shingle", in which a shingle (using equal.count and its defaults) will be used. }
 \item{where}{ A vector of cut-off points for partitioning the vector of fitted probabilities, by default \code{seq(0, 1, by = 0.1)} }
 \item{scalesize}{ A positive real <= 1. If not NA (the default), the circles representing data points in the graph are scaled to reflect the number of data points in the underlying data set. The scalesize parameter specifies how large the largest circle will be compared to 1 inch. For counts with large outliers, small values of scalesize are better. See example below. }
